@@ -4,12 +4,15 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.alert import Alert
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 import time
 
 # Fixture for setting up and tearing down the driver
 @pytest.fixture
 def setup_teardown():
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    chrome_options = Options()
+    chrome_options.binary_location = r"C:\Users\G Y REDDY\AppData\Local\Google\Chrome\Application"
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     yield driver
     driver.quit()
 
@@ -78,3 +81,4 @@ def test_valid_input(setup_teardown):
     # Verify greeting message
     body_text = driver.find_element(By.TAG_NAME, "body").text
     assert "Hello, Alice! Welcome to the website" in body_text, f"Greeting not found or incorrect: {body_text}"
+
